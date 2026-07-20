@@ -326,9 +326,10 @@ function fillActs(){
     const [boxId,ruName,enName]=map[who];
     const box=document.getElementById(boxId);
     (W[who]||[]).forEach((wk,i)=>{
-      const label = wk.title || (ruName+' · '+(i+1));
-      const labelEn = wk.title || (enName+' · '+(i+1));
-      const labelPt = wk.title || (enName+' · '+(i+1));
+      const t = wk.title;   // [ru,en,pt] или null
+      const label   = t ? t[0] : (ruName+' · '+(i+1));
+      const labelEn = t ? t[1] : (enName+' · '+(i+1));
+      const labelPt = t ? t[2] : (enName+' · '+(i+1));
       const cnt = wk.slides.length;
       const extra = cnt>1 ? '<span class="s">'+cnt+' ✦</span>' : '';
       const capNode = cap3(label, labelEn, labelPt, extra);
