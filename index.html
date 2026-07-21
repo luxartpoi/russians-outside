@@ -115,6 +115,7 @@
 </style>
 </head>
 <body class="lang-ru">
+<script>(function(){var l=(navigator.language||'en').toLowerCase();document.body.className='lang-'+(l.indexOf('pt')===0?'pt':l.indexOf('ru')===0?'ru':'en');})();</script>
 
 <nav class="lang">
   <button data-l="ru" class="on">RU</button>
@@ -377,6 +378,9 @@ document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',
   document.body.className='lang-'+b.dataset.l;
   document.querySelectorAll('.lang button').forEach(x=>x.classList.toggle('on',x===b));
 }));
+// подсветить кнопку авто-определённого языка
+(function(){var cur=(document.body.className.match(/lang-(\w+)/)||[])[1]||'ru';
+  document.querySelectorAll('.lang button').forEach(x=>x.classList.toggle('on',x.dataset.l===cur));})();
 </script>
 </body>
 </html>
