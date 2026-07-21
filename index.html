@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Русские во вне · Russians on the Outside · Russos por fora</title>
 <style>
-  :root{--bg:#0c0d11; --bg2:#111318; --ink:#eae7e0; --dim:#8a8578; --line:#23252c; --accent:#c8433a}
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;800&family=Oswald:wght@500;700&display=swap');
+  :root{--bg:#0c0d11; --bg2:#12131a; --ink:#eae7e0; --dim:#8f8a7d; --line:#26282f; --accent:#e0342a;
+    --acid:#c7f000; --cool:#2ea6ff;
+    --display:'Oswald',Impact,sans-serif; --hand:'Caveat',cursive; --body:'Inter','Arial',sans-serif}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth; background:var(--bg)}
   body{background:transparent; color:var(--ink); font-family:"Georgia","Times New Roman",serif; line-height:1.5; -webkit-font-smoothing:antialiased; position:relative}
@@ -79,6 +82,36 @@
   .lb .arrow:hover{background:#fff; color:#000}
   .lb .prev{left:24px} .lb .next{right:24px}
   .lb .close{position:absolute; top:18px; right:22px; color:#fff9; font-size:26px; cursor:pointer; line-height:1}
+
+  /* ---------- street restyle ---------- */
+  body{font-family:var(--body)}
+  h1{font-family:var(--display); font-weight:700; text-transform:uppercase; letter-spacing:-.01em; line-height:.86}
+  h1 .sub{font-family:var(--body); text-transform:none; font-weight:600}
+  .kicker,.venue,.act .n,.shead .idx,.subgroup,.tile .cap .s,.lang button,.lb .counter{font-family:var(--body)}
+  .tagline{font-family:var(--hand); font-style:normal; font-weight:700; font-size:clamp(26px,3.4vw,44px); opacity:1; color:var(--ink)}
+  .shead h2{font-family:var(--display); font-weight:700; text-transform:uppercase; letter-spacing:0}
+  .lead{font-family:var(--body); font-weight:400}
+  .lead em{font-family:var(--hand); font-style:normal; font-size:1.18em; color:var(--ink)}
+  .act h3{font-family:var(--hand); font-weight:700; font-size:34px; line-height:1}
+  .bio h3{font-family:var(--hand)!important; font-size:40px!important}
+  .tile .cap .t{font-family:var(--body); font-weight:600}
+
+  /* per-act / per-section colours (override --accent per section) */
+  #busy{--accent:var(--acid)}
+  #pospelov{--accent:var(--cool)}
+  .acts .act{border-top:3px solid var(--accent)}
+  .acts .act:nth-child(2){border-top-color:var(--acid)}
+  .acts .act:nth-child(3){border-top-color:var(--cool)}
+  .acts .act:nth-child(2) .zone{color:var(--acid)}
+  .acts .act:nth-child(3) .zone{color:var(--cool)}
+  .subgroup{border-bottom-color:var(--accent); color:var(--ink)}
+  .tile{transition:border-color .2s, transform .2s}
+  .tile:hover{border-color:var(--accent); transform:translateY(-3px)}
+  .lang button.on{background:var(--accent); color:#000}
+
+  /* grain / grunge texture */
+  body::after{content:''; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.06; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:170px}
 </style>
 </head>
 <body class="lang-ru">
