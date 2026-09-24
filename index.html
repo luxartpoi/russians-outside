@@ -112,6 +112,22 @@
   /* grain / grunge texture */
   body::after{content:''; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.06; mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:170px}
+
+  /* ---------- пресс / признание ---------- */
+  #press{--accent:var(--cool)}
+  .press-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:24px}
+  .press-grid figure{background:var(--bg2); border:1px solid var(--line); padding:14px}
+  .press-grid img{width:100%; height:auto; display:block}
+  .press-grid figcaption{color:var(--dim); font-size:13px; line-height:1.5; margin-top:12px; font-family:var(--body)}
+
+  /* ---------- отсечка: второстепенный блок ---------- */
+  .cut{display:flex; align-items:center; gap:20px; padding:7vh 7vw 0}
+  .cut::before,.cut::after{content:''; flex:1; height:1px; background:var(--line)}
+  .cut b{font-weight:400; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--dim); font-family:var(--body)}
+  #gann, #bizi{padding-top:7vh}
+  #gann .shead h2, #bizi .shead h2{font-size:clamp(22px,3vw,34px); color:var(--dim)}
+  #gann .snote, #bizi .snote{font-size:14px; margin-bottom:34px}
+  #gann .grid, #bizi .grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px}
 </style>
 </head>
 <body class="lang-ru">
@@ -174,6 +190,23 @@
   <div class="subgroup"><span class="ru">Ирреальность · утрата</span><span class="en">Irreality · loss</span><span class="pt">Irrealidade · perda</span></div>
   <div class="grid" id="g-ifopen"></div>
 </section>
+
+<section id="press">
+  <div class="shead"><span class="idx"><span class="ru">Признание</span><span class="en">Recognition</span><span class="pt">Reconhecimento</span></span><h2>Null Art</h2></div>
+  <p class="snote"><span class="ru">Работы Ильи Поспелова отобраны и продаются галереей Null Art (Кипр) — платформой, которая находит художников по всему миру.</span><span class="en">Ilia Pospelov’s works are selected and sold by Null Art (Cyprus), a platform that discovers rising artists worldwide.</span><span class="pt">As obras de Ilia Pospelov são selecionadas e vendidas pela Null Art (Chipre), uma plataforma que descobre artistas do mundo todo.</span></p>
+  <div class="press-grid">
+    <figure>
+      <img loading="lazy" src="img/press/press-01-artist.jpg" alt="Null Art — Introducing: Ilya Pospelov">
+      <figcaption><span class="ru">«Introducing: Ilya Pospelov» — представление художника платформой, сентябрь 2024.</span><span class="en">“Introducing: Ilya Pospelov” — the platform presenting the artist, September 2024.</span><span class="pt">“Introducing: Ilya Pospelov” — a plataforma apresentando o artista, setembro de 2024.</span></figcaption>
+    </figure>
+    <figure>
+      <img loading="lazy" src="img/press/press-02-prints.jpg" alt="Null Art — Vibrant prints by Ilya Pospelov">
+      <figcaption><span class="ru">«Vibrant prints by Ilya Pospelov» — принты в каталоге галереи, сентябрь 2024.</span><span class="en">“Vibrant prints by Ilya Pospelov” — prints in the gallery catalogue, September 2024.</span><span class="pt">“Vibrant prints by Ilya Pospelov” — gravuras no catálogo da galeria, setembro de 2024.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="cut"><b><span class="ru">Другие авторы проекта</span><span class="en">Other artists in the project</span><span class="pt">Outros artistas do projeto</span></b></div>
 
 <section id="gann">
   <div class="shead"><span class="idx"><span class="ru">Снаружи</span><span class="en">Outside</span><span class="pt">Fora</span></span><h2><span class="ru">Саша Ган</span><span class="en">Sasha Gun</span><span class="pt">Sasha Gun</span></h2></div>
