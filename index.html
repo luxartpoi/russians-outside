@@ -164,11 +164,12 @@
   .cut ~ section::after{content:''; position:absolute; inset:0; pointer-events:none;
     opacity:.05; mix-blend-mode:overlay; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:170px}
 
-  /* ---------- общая высота кадра: разные пропорции не ломают сетку ---------- */
-  #pospelov .tile img{height:clamp(230px,24vw,340px); object-fit:contain; object-position:center}
-  .press-grid img{height:clamp(210px,21vw,310px); object-fit:contain; object-position:center}
-  #gann .tile img, #bizi .tile img{height:clamp(165px,14vw,225px); object-fit:contain; object-position:center}
-  .tile{justify-content:space-between}
+  /* ---------- работы в ряд одной высоты, ширина по пропорции ---------- */
+  #pospelov .grid{display:flex; flex-wrap:wrap; align-items:flex-start; gap:34px 32px}
+  #pospelov .tile{flex:0 0 auto; width:auto; max-width:100%}
+  #pospelov .tile img{height:clamp(180px,25vw,320px); width:auto; max-width:100%;
+     background:none; display:block}
+  #pospelov .tile .cap{max-width:100%}
 </style>
 </head>
 <body class="lang-ru">
