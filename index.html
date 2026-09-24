@@ -299,24 +299,25 @@ const POSPELOV = {
   ],
 };
 
-// ---------- lightbox carousel ----------
+// ---------- лайтбокс: сквозная листалка по секции ----------
 const lb=document.getElementById('lb'), lbImg=lb.querySelector('img'),
       lbCap=lb.querySelector('.lcap'), lbCounter=document.getElementById('lbCounter'),
       lbPrev=document.getElementById('lbPrev'), lbNext=document.getElementById('lbNext'),
       lbClose=document.getElementById('lbClose');
-let SL=[], SI=0, TT=['','',''];
-function openC(slides, titleParts){ SL=slides; SI=0; TT=titleParts; renderC(); lb.classList.add('open'); }
+let PL=[], PI=0;                              // плейлист секции + позиция
+function openPL(list, idx){ PL=list; PI=idx; renderC(); lb.classList.add('open'); }
 function renderC(){
-  lbImg.src=SL[SI];
-  const multi=SL.length>1;
-  lbCounter.textContent = multi ? (SI+1)+' / '+SL.length : '';
+  const e=PL[PI]; if(!e) return;
+  lbImg.src=e.src;
+  const multi=PL.length>1;
+  lbCounter.textContent = multi ? (PI+1)+' / '+PL.length : '';
   lbPrev.style.display=lbNext.style.display = multi ? 'flex':'none';
-  lbCap.innerHTML='<span class="ru">'+TT[0]+'</span><span class="en">'+TT[1]+'</span><span class="pt">'+TT[2]+'</span>';
+  lbCap.innerHTML='<span class="ru">'+e.t[0]+'</span><span class="en">'+e.t[1]+'</span><span class="pt">'+e.t[2]+'</span>';
 }
-function step(d){ SI=(SI+d+SL.length)%SL.length; renderC(); }
+function step(d){ if(!PL.length) return; PI=(PI+d+PL.length)%PL.length; renderC(); }
 lbPrev.onclick=e=>{e.stopPropagation(); step(-1)};
 lbNext.onclick=e=>{e.stopPropagation(); step(1)};
-lbImg.onclick=e=>{e.stopPropagation(); if(SL.length>1) step(1)};
+lbImg.onclick=e=>{e.stopPropagation(); step(1)};
 lbClose.onclick=()=>lb.classList.remove('open');
 lb.addEventListener('click',()=>lb.classList.remove('open'));
 document.addEventListener('keydown',e=>{
@@ -326,48 +327,60 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') step(-1);
 });
 
-// ---------- tile builders ----------
+// ---------- плитки ----------
 function cap3(ru,en,pt,extra){
   const c=document.createElement('div'); c.className='cap';
   c.innerHTML='<span class="t"><span class="ru">'+ru+'</span><span class="en">'+en+'</span><span class="pt">'+pt+'</span></span>'+(extra||'');
   return c;
 }
-function tileFrom(src, slides, titleParts, capNode, badge){
+function addTile(box, playlist, startIdx, coverSrc, capNode, badge){
   const d=document.createElement('div'); d.className='tile';
-  const img=document.createElement('img'); img.loading='lazy'; img.src=src;
+  const img=document.createElement('img'); img.loading='lazy'; img.src=coverSrc;
   img.onerror=()=>d.remove();
-  img.addEventListener('click',()=>openC(slides, titleParts));
+  img.addEventListener('click',()=>openPL(playlist, startIdx));
   d.appendChild(img);
   if(badge){ const b=document.createElement('div'); b.className='multi'; b.textContent='⧉ '+badge; d.appendChild(b); }
   d.appendChild(capNode);
-  return d;
+  box.appendChild(d);
 }
 
-// Pospelov
-for(const [group, works] of Object.entries(POSPELOV)){
-  const box=document.getElementById('g-'+group);
-  works.forEach(w=>{
-    const src='img/pospelov/'+w[0];
-    box.appendChild(tileFrom(src,[src],[w[1],w[2],w[3]],cap3(w[1],w[2],w[3]),0));
-  });
-}
+// Поспелов — одна листалка на всю секцию (подгруппы идут подряд)
+(function(){
+  const pl=[], tiles=[];
+  for(const [group, works] of Object.entries(POSPELOV)){
+    const box=document.getElementById('g-'+group); if(!box) continue;
+    works.forEach(w=>{
+      const src='img/pospelov/'+w[0];
+      tiles.push({box:box, idx:pl.length, src:src, w:w});
+      pl.push({src:src, t:[w[1],w[2],w[3]]});
+    });
+  }
+  tiles.forEach(function(o){ addTile(o.box, pl, o.idx, o.src, cap3(o.w[1],o.w[2],o.w[3]), 0); });
+})();
 
-// Gann / Busy from manifest (works.js -> window.WORKS)
+// Ган / Бизи — листалка по всей секции автора, ракурсы каждой работы внутри потока
 function fillActs(){
   const W=window.WORKS||{gann:[],bizi:[]};
   const map={gann:['g-gann','Саша Ган','Sasha Gun'], bizi:['g-bizi','Бизи','Busy']};
   for(const who of ['gann','bizi']){
-    const [boxId,ruName,enName]=map[who];
-    const box=document.getElementById(boxId);
-    (W[who]||[]).forEach((wk,i)=>{
-      const t = wk.title;   // [ru,en,pt] или null
-      const label   = t ? t[0] : (ruName+' · '+(i+1));
-      const labelEn = t ? t[1] : (enName+' · '+(i+1));
-      const labelPt = t ? t[2] : (enName+' · '+(i+1));
+    const boxId=map[who][0], ruName=map[who][1], enName=map[who][2];
+    const box=document.getElementById(boxId); if(!box) continue;
+    const works=W[who]||[], pl=[], meta=[];
+    works.forEach(function(wk,i){
+      const t=wk.title;
+      const ru = t ? t[0] : (ruName+' · '+(i+1));
+      const en = t ? t[1] : (enName+' · '+(i+1));
+      const pt = t ? t[2] : (enName+' · '+(i+1));
       const cnt = wk.slides.length;
-      const extra = cnt>1 ? '<span class="s">'+cnt+' ✦</span>' : '';
-      const capNode = cap3(label, labelEn, labelPt, extra);
-      box.appendChild(tileFrom(wk.slides[0], wk.slides, [label,labelEn,labelPt], capNode, cnt>1?cnt:0));
+      meta.push({start:pl.length, ru:ru, en:en, pt:pt, cnt:cnt, cover:wk.slides[0]});
+      wk.slides.forEach(function(s,si){
+        const suf = cnt>1 ? ' ('+(si+1)+'/'+cnt+')' : '';
+        pl.push({src:s, t:[ru+suf, en+suf, pt+suf]});
+      });
+    });
+    meta.forEach(function(m){
+      const extra = m.cnt>1 ? '<span class="s">'+m.cnt+' ✦</span>' : '';
+      addTile(box, pl, m.start, m.cover, cap3(m.ru,m.en,m.pt,extra), m.cnt>1?m.cnt:0);
     });
   }
 }
