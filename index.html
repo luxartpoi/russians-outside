@@ -344,18 +344,13 @@ function addTile(box, playlist, startIdx, coverSrc, capNode, badge){
   box.appendChild(d);
 }
 
-// Поспелов — одна листалка на всю секцию (подгруппы идут подряд)
+// Поспелов — своя листалка на каждую серию (Dungsagar / Red Walls / IR / …)
 (function(){
-  const pl=[], tiles=[];
   for(const [group, works] of Object.entries(POSPELOV)){
     const box=document.getElementById('g-'+group); if(!box) continue;
-    works.forEach(w=>{
-      const src='img/pospelov/'+w[0];
-      tiles.push({box:box, idx:pl.length, src:src, w:w});
-      pl.push({src:src, t:[w[1],w[2],w[3]]});
-    });
+    const pl=works.map(function(w){ return {src:'img/pospelov/'+w[0], t:[w[1],w[2],w[3]]}; });
+    works.forEach(function(w,i){ addTile(box, pl, i, pl[i].src, cap3(w[1],w[2],w[3]), 0); });
   }
-  tiles.forEach(function(o){ addTile(o.box, pl, o.idx, o.src, cap3(o.w[1],o.w[2],o.w[3]), 0); });
 })();
 
 // Ган / Бизи — листалка по всей секции автора, ракурсы каждой работы внутри потока
